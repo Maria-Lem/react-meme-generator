@@ -2,26 +2,26 @@ import { useState } from "react";
 import memesData from "./memesData"
 
 export default function Meme() {
-  const randomize = () => {
-    const memesArray = memesData.data.memes;
-    let random = Math.floor(Math.random() * memesArray.length)
-    return memesArray[random];
-  }
+  const [allMemeImages, setAllMemeImages] = useState(memesData);
 
-  const randomMeme = () => {
-    let newMeme = randomize()
-    const url = newMeme.url;
-    const name = newMeme.name;
-    return {url, name};
-  }
-
-  const [memeUrl, setMemeUrl] = useState('');
-  const [memeAlt, setMemeAlt] = useState('');
+  const [meme, setMeme] = useState({
+    topText: "",
+    bottomText: "",
+    imageUrl: "",
+    imageAlt: ""
+  })
 
   const changeImage = () => {
-    const rand = randomMeme()
-    setMemeUrl(rand.url)
-    setMemeAlt(rand.name)
+    const memesArray = allMemeImages.data.memes;
+    let random = Math.floor(Math.random() * memesArray.length)
+    const url = memesArray[random].url;
+    const alt = memesArray[random].name;
+
+    setMeme(prevMeme => ({
+      ...prevMeme,
+      imageUrl: url,
+      imageAlt: alt
+    }))
   }
 
   const handleSubmit = (evt) => {
@@ -35,7 +35,7 @@ export default function Meme() {
         <input type="text" className="form__input" placeholder="Bottom text" />
         <button className="form__btn" onClick={changeImage}>Get a new meme image 🖼️</button>
       </form>
-      <img className="meme-img" src={memeUrl} alt={memeAlt} />
+      <img className="meme-img" src={meme.imageUrl} alt={meme.imageAlt} />
     </main>
   )
 }
