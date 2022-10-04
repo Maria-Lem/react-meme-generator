@@ -7,8 +7,8 @@ export default function Meme() {
   const [meme, setMeme] = useState({
     topText: "",
     bottomText: "",
-    imageUrl: "",
-    imageAlt: ""
+    imageUrl: "https://i.imgflip.com/261o3j.jpg",
+    imageAlt: "Running Away Balloon"
   })
 
   const changeImage = () => {
