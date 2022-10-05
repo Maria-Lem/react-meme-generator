@@ -7,8 +7,8 @@ export default function Meme() {
   const [meme, setMeme] = useState({
     topText: "",
     bottomText: "",
-    imageUrl: "https://i.imgflip.com/261o3j.jpg",
-    imageAlt: "Running Away Balloon"
+    imageUrl: "http://i.imgflip.com/1bij.jpg",
+    imageAlt: "One Does Not Simply"
   })
 
   const changeImage = () => {
@@ -24,6 +24,15 @@ export default function Meme() {
     }))
   }
 
+  const handleChange = (evt) => {
+    const {name, value} = evt.target;
+
+    setMeme(prevMeme => ({
+      ...prevMeme,
+      [name]: value
+    }))
+  }
+
   const handleSubmit = (evt) => {
     evt.preventDefault();
   }
@@ -31,11 +40,29 @@ export default function Meme() {
   return (
     <main className="main">
       <form className="form" onSubmit={handleSubmit}>
-        <input type="text" className="form__input" placeholder="Top text" />
-        <input type="text" className="form__input" placeholder="Bottom text" />
+        <input 
+          type="text" 
+          className="form__input" 
+          placeholder="Top text"
+          name="topText"
+          value={meme.topText}
+          onChange={handleChange}
+        />
+        <input 
+          type="text" 
+          className="form__input" 
+          placeholder="Bottom text"
+          name="bottomText"
+          value={meme.bottomText}
+          onChange={handleChange}
+        />
         <button className="form__btn" onClick={changeImage}>Get a new meme image 🖼️</button>
       </form>
-      <img className="meme-img" src={meme.imageUrl} alt={meme.imageAlt} />
+      <div className="meme">
+        <img className="meme__img" src={meme.imageUrl} alt={meme.imageAlt} />
+        <h2 className="meme__text top">{meme.topText}</h2>
+        <h2 className="meme__text bottom">{meme.bottomText}</h2>
+      </div>
     </main>
   )
 }
