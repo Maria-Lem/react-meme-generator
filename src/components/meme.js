@@ -1,21 +1,25 @@
-import { useState } from "react";
-import memesData from "./memesData"
+import { useEffect, useState } from "react";
 
 export default function Meme() {
-  const [allMemeImages, setAllMemeImages] = useState(memesData);
+  const [allMemes, setAllMemes] = useState([]);
 
   const [meme, setMeme] = useState({
     topText: "",
     bottomText: "",
     imageUrl: "http://i.imgflip.com/1bij.jpg",
     imageAlt: "One Does Not Simply"
-  })
+  });
+
+  useEffect(() => {
+    fetch(`https://api.imgflip.com/get_memes`)
+    .then(res => res.json())
+    .then(data => setAllMemes(data.data.memes))
+  }, []);
 
   const changeImage = () => {
-    const memesArray = allMemeImages.data.memes;
-    let random = Math.floor(Math.random() * memesArray.length)
-    const url = memesArray[random].url;
-    const alt = memesArray[random].name;
+    let random = Math.floor(Math.random() * allMemes.length)
+    const url = allMemes[random].url;
+    const alt = allMemes[random].name;
 
     setMeme(prevMeme => ({
       ...prevMeme,
